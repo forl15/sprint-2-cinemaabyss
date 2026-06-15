@@ -1,0 +1,60 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Кинобездна
+
+Person(user, "Пользователь", "Ноутбуки, Smart TV, мобильные устройства")
+
+System_Boundary(cinema, "Кинобездна") {
+    Container(gateway, "API Gateway", "Go","Маршрутизация")
+    Container(users, "Users Service", "Go", "Пользователи, регистрация и аутентификация")
+    ContainerDb(usersDb, "Users DB", "PostgreSQL")
+    Container(movies, "Movies Service", "Go", "Фильмы, жанры, рейтинги и метаданные")
+    ContainerDb(moviesDb, "Movies DB", "PostgreSQL")
+    Container(activities, "User Activities Service", "Go", "Оценки пользователя, просмотры, избранное и рекомендации")
+    ContainerDb(activitiesDb, "User Activities DB", "PostgreSQL")
+    Container(payments, "Payments Service", "Go", "Обработка платежей")
+    ContainerDb(paymentsDb, "Payments DB", "PostgreSQL")
+    Container(subscriptions, "Subscriptions Service", "Go","Управление подписками")
+    ContainerDb(subscriptionsDb, "Subscriptions DB", "PostgreSQL")
+    ContainerQueue(kafka, "Kafka","Kafka","Обмен событиями между сервисами")
+}
+
+System_Ext(paymentSystem, "Платёжная система")
+System_Ext(recommendation,"Внешняя рекомендательная система")
+System_Ext(cinemas,"Внешние онлайн-кинотеатры")
+System_Ext(s3,"S3")
+
+Rel(user, gateway, "HTTPS/REST")
+
+Rel(gateway, users, "REST")
+Rel(gateway, movies, "REST")
+Rel(gateway, payments, "REST")
+Rel(gateway, subscriptions, "REST")
+Rel(gateway, activities, "REST")
+
+Rel(users, usersDb, "RW")
+Rel(movies, moviesDb, "RW")
+Rel(payments, paymentsDb, "RW")
+Rel(subscriptions, subscriptionsDb, "RW")
+Rel(activities, activitiesDb, "RW")
+
+Rel(payments, paymentSystem,"REST")
+
+Rel(movies, cinemas,"Получение контента")
+
+Rel(movies, s3,"Хранение/получение медиафайлов")
+
+Rel(users, kafka,"Publish user events")
+
+Rel(activities, kafka,"MovieViewed, MovieRated")
+
+Rel(payments, kafka,"Payment events")
+
+Rel(subscriptions, kafka,"Publish subscription events/Consume user and payment events")
+
+Rel(activities, recommendation, "User ratings")
+
+Rel(recommendation, activities, "Recommendations")
+
+@enduml
