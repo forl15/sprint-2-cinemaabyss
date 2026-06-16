@@ -1,4 +1,4 @@
-package com.practicum.cinema.proxy;
+package com.cinemaabyss.proxy;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;

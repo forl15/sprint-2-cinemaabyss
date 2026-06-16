@@ -1,4 +1,4 @@
-package com.practicum.cinema.proxy;
+package com.cinemaabyss.proxy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
