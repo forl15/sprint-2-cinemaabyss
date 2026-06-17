@@ -354,6 +354,8 @@ minikube tunnel
 Потом вызовите 
 https://cinemaabyss.example.com/api/movies
 и приложите скриншот развертывания helm и вывода https://cinemaabyss.example.com/api/movies
+[Скриншот развертывания](screenshots/pods-helm.png)
+[Скриншот https://cinemaabyss.example.com/api/movies](screenshots/movies-helm.png)
 
 ## Удаляем все
 
