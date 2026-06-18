@@ -47,9 +47,9 @@ Rel(movies, s3,"Хранение/получение медиафайлов")
 
 Rel(users, kafka,"Publish user events")
 
-Rel(activities, kafka,"MovieViewed, MovieRated")
+Rel(activities, kafka,"Publishes MovieViewed, MovieRated events")
 
-Rel(payments, kafka,"Payment events")
+Rel(payments, kafka,"Publish payment events")
 
 Rel(subscriptions, kafka,"Publish subscription events/Consume user and payment events")
 
