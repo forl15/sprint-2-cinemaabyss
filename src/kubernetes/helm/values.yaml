@@ -5,7 +5,7 @@ global:
 
 # Image pull secrets
 imagePullSecrets:
-  dockerconfigjson: ewoJImF1dGhzIjogewoJCSJnaGNyLmlvIjogewoJCQkiYXV0aCI6
+  dockerconfigjson: ewoJImF1dGhzIjogewoJCSJnaGNyLmlvIjogewoJCQkiYXV0aCI6ICJabTl5YkRFMU9tZG9jRjlHTVhaV05uRkRXWGRpWWt0eldtNXllV2cwUjNORlduZHNjMjlsTnpFMFkyOVROM1E9IgoJCX0KCX0sCgkiZmVhdHVyZXMiOiB7CgkJImhvb2tzIjogInRydWUiCgl9Cn0=
 # Database configuration
 database:
   host: postgres
@@ -33,7 +33,7 @@ database:
 monolith:
   enabled: true
   image:
-    repository: ghcr.io/db-exp/cinemaabysstest/monolith
+    repository: ghcr.io/forl15/sprint-2-cinemaabyss/monolith
     tag: latest
     pullPolicy: Always
   replicas: 1
@@ -53,17 +53,17 @@ monolith:
 proxyService:
   enabled: true
   image:
-    repository: ghcr.io/db-exp/cinemaabysstest/proxy-service
+    repository: ghcr.io/forl15/sprint-2-cinemaabyss/proxy-service
     tag: latest
     pullPolicy: Always
   replicas: 1
   resources:
     limits:
       cpu: 300m
-      memory: 256Mi
+      memory: 768Mi
     requests:
       cpu: 100m
-      memory: 128Mi
+      memory: 256Mi
   service:
     port: 80
     targetPort: 8000
@@ -73,7 +73,7 @@ proxyService:
 moviesService:
   enabled: true
   image:
-    repository: ghcr.io/db-exp/cinemaabysstest/movies-service
+    repository: ghcr.io/forl15/sprint-2-cinemaabyss/movies-service
     tag: latest
     pullPolicy: Always
   replicas: 1
@@ -93,17 +93,17 @@ moviesService:
 eventsService:
   enabled: true
   image:
-    repository: ghcr.io/db-exp/cinemaabysstest/events-service
+    repository: ghcr.io/forl15/sprint-2-cinemaabyss/events-service
     tag: latest
     pullPolicy: Always
   replicas: 1
   resources:
     limits:
       cpu: 300m
-      memory: 256Mi
+      memory: 768Mi
     requests:
       cpu: 100m
-      memory: 128Mi
+      memory: 256Mi
   service:
     port: 8082
     targetPort: 8082
@@ -143,7 +143,7 @@ kafka:
 zookeeper:
   enabled: true
   image:
-    repository: wurstmeister/zookeeper
+    repository: zookeeper
     tag: latest
     pullPolicy: IfNotPresent
   replicas: 1
@@ -162,7 +162,7 @@ zookeeper:
 # Ingress configuration
 ingress:
   enabled: true
-  className: nginx
+  ingressClassName: nginx
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
@@ -172,7 +172,7 @@ ingress:
         - path: /
           pathType: Prefix
           service: proxy-service
-          port: 80
+          port: 8000
         - path: /api/events
           pathType: Prefix
           service: events-service
